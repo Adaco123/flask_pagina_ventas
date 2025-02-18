@@ -31,8 +31,8 @@ def show_post(slug):
 @app.route("/")
 @app.route("/inicio")
 def inicio():
-    posts = Post.get_all()
-    return render_template("base.html", posts=posts)
+    #posts = Post.get_all()
+    return render_template("base.html")
 
 @app.route("/signup/", methods=["GET", "POST"])
 def signUp():

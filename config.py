@@ -7,8 +7,8 @@ def PatronSingleton(clase):
         return instancia[clase]
     return envoltura
 @PatronSingleton
-class SingletonSQLAlchemy(SQLAlchemy):
+class SQLAlchemy(SQLAlchemy):
     pass
 # Inicializar SQLAlchemy
-db = SingletonSQLAlchemy()
+db = SQLAlchemy()
 

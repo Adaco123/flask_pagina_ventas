@@ -30,10 +30,10 @@
                   PRODUCTOS
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('login')}}">LOGIN</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('signUp')}}">REGISTRATE</a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  <li><a class="dropdown-item" href="#">PRODUCTOS</a></li>
                 </ul>
               </li>
             </ul>
@@ -46,9 +46,19 @@
       </nav>
     {% block content %}
     <ul>
-      {% for post in posts %}
-          <li><a href="{{ post.public_url() }}">{{ post.title }}</a></li>
-      {% endfor %}
+      BIENVENIDOS A MI PAGINA WEB
+      <p>
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+          CLICK PARA MAS INFORMACION SOBRE LA SALTEÑA
+        </button>
+      </p>
+      <div style="min-height: 120px;">
+        <div class="collapse collapse-horizontal" id="collapseWidthExample">
+          <div class="card card-body" style="width: 300px;">
+            LA SALTEÑA ES ORIGINARIA EN BOLIVIA Y AQUI A LA GENTE LE GUSTA SU SABOR Y COMERLA EN COMPAÑIA DE AMIGOS
+          </div>
+        </div>
+      </div>
       </ul> 
     {% endblock %}
 </body>
