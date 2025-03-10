@@ -20,7 +20,9 @@ def sign_up_form():
         if user is not None:
             error=f"el Email {email} esta siendo utilizado por otra persona"
         else:
-            user= User(nombre=nombre, email=email, password=password)
+            user= User(nombre=nombre, email=email)
+            user.set_password(password)
+            user.save()
             login_user(user, remember=True)
             return redirect(url_for("auth.cuenta"))
         
@@ -33,11 +35,13 @@ def login_form():
     formu=LoginForm()
     if formu.validate_on_submit():
         user=User.get_by_email(formu.email.data)
-        return redirect(url_for('public.inicio', form=formu))
+        if user is not None and user.check_password(formu.password.data):
+            login_user(user, remember=formu.remember_me.data)
+            return redirect(url_for('public.inicio', form=formu))
     return render_template("login_form.html", form=formu)
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
+    return User.get_by_id(user_id)
 
 @auth_bp.route("/logout")
 def logout():

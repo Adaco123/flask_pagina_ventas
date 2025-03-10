@@ -4,5 +4,4 @@ app = create_app()
 
 if __name__ == "__main__":
     os.environ['FLASK_DEBUG'] = "development"
-    app.run(debug=True)
-
+    app.run(debug=True) 

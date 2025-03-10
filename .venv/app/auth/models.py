@@ -1,37 +1,34 @@
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+from app import db
 
-users = []
+class User(db.Model, UserMixin):
+    __tablename__="usuarios"
 
-class User(UserMixin):  # Hereda UserMixin para compatibilidad con Flask-Login
-    def __init__(self, nombre, email, password):
-        self.nombre = nombre
-        self.email = email
-        self.password = password
-        users.append(self)
+    id=db.Column(db.Integer, primary_key=True)
+    nombre=db.Column(db.String(80), nullable=False)
+    email=db.Column(db.String(256), unique=True, nullable=False)
+    contra=db.Column(db.String(200), nullable=False)
+    es_admi=db.Column(db.Boolean, default=False)
+      
+    def __init__(self, nombre, email):
+        self.nombre=nombre
+        self.email=email
+    
+    def __repr__(self):
+        return f'<User {self.email}>'
+    def set_password(self, contra):
+        self.contra=generate_password_hash(contra)
+    def check_password(self, contra):
+        return check_password_hash(self.contra, contra)
 
-    @classmethod
-    def get_by_email(cls, email):
-        for user in users:
-            if user.email == email:
-                return user
-        return None
-
-    @classmethod
-    def get(cls, email):  # Flask-Login puede intentar usar get()
-        return cls.get_by_email(email)  # Redirigir a get_by_email()
-
-    # Métodos requeridos por Flask-Login
-    def get_id(self):
-        return self.email  # Flask-Login usa esto como identificador único
-
-    @property
-    def is_active(self):
-        return True  # En este caso, todos los usuarios están activos
-
-    @property
-    def is_authenticated(self):
-        return True  # Si el usuario existe, se considera autenticado
-
-    @property
-    def is_anonymous(self):
-        return False  # No hay usuarios anónimos en este sistema
+    def save(self):
+        if not self.id:
+            db.session.add(self)
+        db.session.commit()
+    @staticmethod
+    def get_by_id(id):
+        return User.query.get(id)
+    @staticmethod
+    def get_by_email(email):
+        return User.query.filter_by(email=email).first()

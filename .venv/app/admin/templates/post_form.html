@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if formu.title.data %}
+        {{ formu.title.data }}
+    {% else %}
+        Nueva entrada
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" novalidate>
+        {{ formu.hidden_tag() }}
+        <div>
+            {{ formu.title.label }}
+            {{ formu.title(size=128) }}<br>
+            {% for error in formu.title.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ formu.content.label }}
+            {{ formu.content }}<br>
+            {% for error in formu.content.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ formu.submit() }}
+        </div>
+    </form>
+{% endblock %}
