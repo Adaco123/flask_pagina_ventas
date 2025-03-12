@@ -3,11 +3,15 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 db =SQLAlchemy()
 login_manager=LoginManager()
-def create_app():
-    app=Flask(__name__)
-    app.config['SECRET_KEY']="holaaaa"
-    app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://postgres:adalid123@localhost:5432/miBaseDeDatos'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False 
+def create_app(settings_module):
+    app = Flask(__name__, instance_relative_config=True)
+    
+    app.config.from_object(settings_module)
+
+    if app.config.get('TESTING', False):
+        app.config.from_pyfile('config-testing.py', silent=True)
+    else:
+        app.config.from_pyfile('config.py', silent=True) 
     
     login_manager.init_app(app)
     login_manager.login_view= "login"
