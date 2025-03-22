@@ -33,3 +33,9 @@ class Post(db.Model):
     @staticmethod
     def get_all():
         return Post.query.all()
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+    @staticmethod
+    def get_by_id(id):
+        return Post.query.get(id)

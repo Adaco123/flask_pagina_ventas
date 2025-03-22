@@ -12,7 +12,7 @@ def inicio():
     current_app.logger.info('Mostrando los posts del blog')
     logger.info('Mostrando los posts del blog')
     posts = Post.get_all()
-    return render_template("base.html", posts=posts)
+    return render_template("public/publico.html", posts=posts)
 
 @public_bp.route("/p/<string:slug>/")
 def show_post(slug):

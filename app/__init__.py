@@ -19,7 +19,7 @@ def create_app(settings_module):
     print("Clave secreta:", app.config.get("SECRET_KEY"))
 
     login_manager.init_app(app)
-    login_manager.login_view= "login"
+    login_manager.login_view= "auth.login_form"
     db.init_app(app)
     from .public import public_bp
     app.register_blueprint(public_bp)
@@ -41,7 +41,9 @@ def register_error_handlers(app):
     @app.errorhandler(404)
     def error_404_handler(e):
         return render_template('404.html'), 404
-
+    @app.errorhandler(401)
+    def error_401_handler(e):
+        return render_template('401.html'), 401
 def configure_logging(app):
 
     # Elimina los manejadores por defecto de la app
