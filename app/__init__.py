@@ -3,12 +3,14 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 import logging
 from logging.handlers import SMTPHandler
-
+from flask_migrate import Migrate
+from config import dev
 db =SQLAlchemy()
 login_manager=LoginManager()
-def create_app(settings_module):
+migrate=Migrate()
+def create_app(settings_module=dev):
     app = Flask(__name__, instance_relative_config=True)
-    
+     
     app.config.from_object(settings_module)
 
     if app.config.get('TESTING', False):
@@ -21,6 +23,7 @@ def create_app(settings_module):
     login_manager.init_app(app)
     login_manager.login_view= "auth.login_form"
     db.init_app(app)
+    migrate.init_app(app, db)
     from .public import public_bp
     app.register_blueprint(public_bp)
     from .auth import auth_bp
