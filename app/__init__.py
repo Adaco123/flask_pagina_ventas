@@ -4,11 +4,11 @@ from flask_sqlalchemy import SQLAlchemy
 import logging
 from logging.handlers import SMTPHandler
 from flask_migrate import Migrate
-from config import dev
+from config import dev,testing
 db =SQLAlchemy()
 login_manager=LoginManager()
 migrate=Migrate()
-def create_app(settings_module=dev):
+def create_app(settings_module=testing):
     app = Flask(__name__, instance_relative_config=True)
      
     app.config.from_object(settings_module)
