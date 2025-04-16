@@ -12,6 +12,7 @@ class Post(db.Model):
     title_slug=db.Column(db.String(256), unique=True, nullable=False)
     contenido=db.Column(db.Text)
     created = db.Column(db.DateTime, server_default=func.now())
+    image_name=db.Column(db.String)
     comments=db.relationship('Comment', backref='post', lazy=True, cascade='all,delete-orphan',
      order_by='asc(Comment.created)')
     def __repr__(self):
@@ -46,6 +47,10 @@ class Post(db.Model):
     @staticmethod
     def get_by_id(id):
         return Post.query.get(id)
+    @staticmethod
+    def all_paginated(page=1, per_page=20):
+        return Post.query.order_by(Post.created.asc()).\
+            paginate(page=page, per_page=per_page, error_out=False)
 class Comment(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     user_id=db.Column(db.Integer, db.ForeignKey('usuarios.id', ondelete='SET NULL'))

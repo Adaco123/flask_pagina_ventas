@@ -1,10 +1,11 @@
-from flask import request, url_for, render_template, redirect
+from flask import request, url_for, render_template, redirect, current_app
 from flask_login import login_user, current_user, logout_user, login_required
 from .forms import SignupForm, LoginForm
 from . import auth_bp
 from .models import User
 from app import login_manager
 import logging
+from app.common.mail import send_email
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +27,11 @@ def sign_up_form():
             user= User(nombre=nombre, email=email)
             user.set_password(password)
             user.save()
+            send_email(subject='Bienvenid@ al miniblog',
+                       sender=current_app.config['DONT_REPLY_FROM_EMAIL'],
+                       recipients=[email, ],
+                       text_body=f'Hola {nombre}, bienvenid@ al miniblog de Flask',
+                       html_body=f'<p>Hola <strong>{nombre}</strong>, bienvenid@ al miniblog de Flask</p>')
             login_user(user, remember=True)
             return redirect(url_for("auth.cuenta"))
         

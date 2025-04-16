@@ -5,10 +5,13 @@ import logging
 from logging.handlers import SMTPHandler
 from flask_migrate import Migrate
 from config import dev,testing
+from  flask_mail import Mail
+from app.common.filters import format_datetime
 db =SQLAlchemy()
 login_manager=LoginManager()
 migrate=Migrate()
-def create_app(settings_module=testing):
+mail=Mail()
+def create_app(settings_module=dev):
     app = Flask(__name__, instance_relative_config=True)
      
     app.config.from_object(settings_module)
@@ -24,6 +27,9 @@ def create_app(settings_module=testing):
     login_manager.login_view= "auth.login_form"
     db.init_app(app)
     migrate.init_app(app, db)
+    mail.init_app(app)
+
+    register_filters(app)
     from .public import public_bp
     app.register_blueprint(public_bp)
     from .auth import auth_bp
@@ -34,7 +40,8 @@ def create_app(settings_module=testing):
     register_error_handlers(app)
 
     return app
-
+def register_filters(app):
+    app.jinja_env.filters['datetime'] = format_datetime
 def register_error_handlers(app):
 
     @app.errorhandler(500)

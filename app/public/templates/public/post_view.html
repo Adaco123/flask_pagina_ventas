@@ -2,6 +2,9 @@
 {% block title%}{{post.title}}{%endblock%}
 {% block content%}
     <h1>{{ post.title }}</h1>
+    <div>
+        <span class="blogDate">{{ post.created|datetime('full') }}</span>
+    </div>
     {{ post.content }}
     <h2>Comentarios</h2>
     {%if current_user.is_authenticated %}
@@ -15,14 +18,19 @@
                 <span style="color:red;">{{error}}</span>
                 {%endfor%}
             </div>
+            <div>
+                {{form.submit()}}
+            </div>
         </form>
     </div>
     {%endif%}
     <div id="comments">
         {%for comment in post.comments%}
         <div>
-            <div>El Usuario {{comment.user_name}} comento</div>
-            <div>{{coment.content}}</div>
+            <div>
+                El usuario {{ comment.user_name }} comentó el <span class="blogDate">{{ comment.created|datetime }}</span>:
+            </div>
+            <div>{{ comment.content }}</div>
         </div>
         {%endfor%}
     </div>
