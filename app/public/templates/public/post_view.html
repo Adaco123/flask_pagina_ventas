@@ -5,6 +5,11 @@
     <div>
         <span class="blogDate">{{ post.created|datetime('full') }}</span>
     </div>
+    {%if post.image_name%}
+    <div>
+        <img src="{{ url_for('media_posts', filename=post.image_name) }}" alt="Imagen del post {{ post.title }}"/>
+    </div>
+    {%endif%}
     {{ post.content }}
     <h2>Comentarios</h2>
     {%if current_user.is_authenticated %}

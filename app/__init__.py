@@ -5,8 +5,9 @@ import logging
 from logging.handlers import SMTPHandler
 from flask_migrate import Migrate
 from config import dev,testing
-from  flask_mail import Mail
+from flask_mail import Mail
 from app.common.filters import format_datetime
+ 
 db =SQLAlchemy()
 login_manager=LoginManager()
 migrate=Migrate()
@@ -36,6 +37,8 @@ def create_app(settings_module=dev):
     app.register_blueprint(auth_bp)
     from .admin import admin_bp
     app.register_blueprint(admin_bp)
+    from .productos import producto_bp
+    app.register_blueprint(producto_bp)
     # Custom error handlers
     register_error_handlers(app)
 

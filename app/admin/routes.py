@@ -1,12 +1,14 @@
 import logging
-from flask import render_template, redirect, url_for, abort
+import os
+from werkzeug.utils import secure_filename
+from flask import render_template, redirect, url_for, abort,request, current_app
 from flask_login import login_required, current_user
 from app.models import Post
 from . import admin_bp
 from .forms import PostForm, UserAdminForm
 from app.auth.decorator import admin_required
 from app.auth.models import User
-
+import os
 logger = logging.getLogger(__name__)
 
 @admin_bp.route("/admin/")
@@ -32,9 +34,19 @@ def post_form(post_id):
     if formu.validate_on_submit():
         titulo=formu.title.data
         contenido=formu.content.data
+        file=formu.post_image.data
+        image_name=None
+        if file:
+            image_name=secure_filename(file.filename)
+            images_dir=current_app.config['POSTS_IMAGES_DIR']
+            os.makedirs(images_dir, exist_ok=True)
+            file_path=os.path.join(images_dir, image_name)
+            file.save(file_path)
         post=Post(user_id=current_user.id, title=titulo, contenido=contenido)
+        post.image_name=image_name
         post.save()
-        return redirect(url_for('public.inicio'))
+        logger.info(f'Guardando nuevo post {titulo}')
+        return redirect(url_for('admin.list_posts'))
     return render_template("admin/post_form.html", formu=formu)
 
 @admin_bp.route("/admin/post/<int:post_id>/", methods=['GET', 'POST'])

@@ -1,0 +1,84 @@
+/* Fondo general oscuro */
+body {
+    background-color: #121212;
+    color: #a58787;
+}
+
+/* Navbar oscura */
+.navbar {
+    background-color: #1f1f1f !important;
+}
+
+.navbar .nav-link,
+.navbar .navbar-brand {
+    color: #e0e0e0 !important;
+}
+
+.navbar .nav-link:hover,
+.navbar .navbar-brand:hover {
+    color: #ffffff !important;
+}
+
+/* Dropdown en oscuro */
+.dropdown-menu {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+}
+
+.dropdown-menu .dropdown-item {
+    color: #e0e0e0;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #3a3a3a;
+}
+
+/* Input de búsqueda */
+.form-control {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+.form-control::placeholder {
+    color: #aaaaaa;
+}
+
+/* Botón de búsqueda */
+.btn-outline-success {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-outline-success:hover {
+    background-color: #28a745;
+    color: #fff;
+}
+
+/* Lista de info de usuario */
+.user-info {
+    list-style: none;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    padding: 10px;
+    margin: 0;
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+.user-info li a {
+    color: #90caf9;
+    text-decoration: none;
+}
+
+.user-info li a:hover {
+    text-decoration: underline;
+}
+
+/* Contenedor principal */
+.container {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 10px;
+}
